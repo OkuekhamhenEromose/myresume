@@ -6,9 +6,9 @@ from rest_framework import serializers
 from . models import Profile
 from django.contrib.auth.models import User
 
-from . utils import SendMail
-
-
+# from . utils import SendMail
+# serializers are used to convert complex data types like querysets and model instances to native python datatypes
+# that can then be easily rendered into JSON, XML or other content types. They also handle deserialization, allowing parsed data to be converted back into complex types after validating the incoming data.
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -45,7 +45,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
             gender = validated_data['gender'],
             profile_pix = validated_data.get('profile_pix')
         )
-        SendMail(email)
+        # SendMail(email)
         return profile
     
 class UpdateProfileSerializer(serializers.ModelSerializer):
