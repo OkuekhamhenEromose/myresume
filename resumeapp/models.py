@@ -1,5 +1,6 @@
-
+import uuid
 from django.db import models
+from myapp.models import Profile
 
 STATE_CHOICE = (
  ('Abia','Abia'),
@@ -39,11 +40,15 @@ STATE_CHOICE = (
  ('Yobe','Yobe'),
  ('Zamfara','Zamfara'),
 )
+GENDER =(
+    ('M', 'Male'),
+    ('F', 'Female')
+)
 
 class Resume(models.Model):
  name = models.CharField(max_length=100)
  dob = models.DateField(auto_now=False, auto_now_add=False)
- gender = models.CharField(max_length=100)
+ gender = models.CharField(choices=GENDER, max_length=50)
  locality = models.CharField(max_length=100)
  city = models.CharField(max_length=100)
  pin = models.PositiveIntegerField()
@@ -54,4 +59,24 @@ class Resume(models.Model):
  profile_image = models.ImageField(upload_to='profileimg', blank=True)
  my_file = models.FileField(upload_to='doc', blank=True)
 
+# This is the user listing, it contains the total of all listings a user has
+# and the profile of the user
+class UserListing(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE,null=True,blank=True)
+    total = models.PositiveIntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f'{str(self.total)}'
+# This is the single listing, it contains the listing and the quantity of that listing
+# in the user listing. It is used to calculate the total of the user listing
+class SingleListing(models.Model):
+    userlisting = models.ForeignKey(UserListing, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Resume, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    subtotal = models.PositiveIntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f'UserListing Listing - {self.userlisting.id} -{self.quantity}'
 
