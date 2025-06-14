@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
-import dj_database_url
+# import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -69,27 +69,27 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
+# DATABASE_URL = os.environ.get('DATABASEURL')
+# if DATABASE_URL:
+#     DATABASES = {
+#         'default': dj_database_url.parse(DATABASE_URL)
 #     }
-# }
-
-
-DATABASE_URL = os.environ.get('DATABASEURL')
-if DATABASE_URL:
-    DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
-    }
-else:
-    print("Using default SQLite database. DATABASEURL not set.")
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+# else:
+#     print("Using default SQLite database. DATABASEURL not set.")
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
 
 
 
@@ -143,9 +143,9 @@ if 'RENDER' in os.environ:
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True #use SSL if TLS is not available
+EMAIL_USE_SSL = True #use SSL if TLS is not available
 # EMAIL_USE_SSL = False #use SSL if TLS is not available
-EMAIL_PORT = 587 #587 is the port for TLS, 465 is the port for SSL
+EMAIL_PORT = 465 #587 is the port for TLS, 465 is the port for SSL
 EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
 EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
 
