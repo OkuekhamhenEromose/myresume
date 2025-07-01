@@ -17,7 +17,7 @@ SECRET_KEY = str(os.getenv('DJANGO_SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['yourdomain.com','localhost','127.0.0.1',]
 
 
 # Application definition
@@ -80,7 +80,11 @@ DATABASES = {
 DATABASE_URL = os.environ.get('DATABASEURL')
 if DATABASE_URL:
     DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
+        'default': dj_database_url.config(
+            default='postgres://user:pass@host:port/dbname',
+            conn_max_age=600,
+            ssl_require=True
+        )
     }
 else:
     print("Using default SQLite database. DATABASEURL not set.")
